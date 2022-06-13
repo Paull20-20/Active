@@ -1,0 +1,63 @@
+Questão01:
+
+
+SELECT a.*, COUNT(ab.ArtistId) AS total_albuns FROM artists a JOIN albums ab ON ab.ArtistId = a.ArtistId GROUP BY a.ArtistId;
+
+
+Questão02:  
+
+
+select c.FirstName || ' ' ||  c.LastName as CustomerFullName, SUM(i.Total) as total_gasto from customers c join invoices i on c.CustomerId = i.CustomerId group by c.CustomerId order by desc limit 20;
+
+
+
+Questão03:  
+
+
+select g.Name as Genre, round(SUM(ii.UnitPrice)) as TotalSold , count(ii.Quantity) as QtdeSold from genres g join tracks t on t.GenreId = g.GenreId join invoice_items ii on ii.TrackId = t.TrackId group by g.Name;
+
+
+
+Questão04:  
+
+
+select a.Title, round(t.UnitPrice,2) as Price , ROUND((t.Milliseconds / 60000 )) as Duration_minutes, round((t.Bytes / 1048576.0),2) as Mb from albums a join tracks t on t.AlbumId = a.AlbumId group by a.Title;
+
+
+
+Questão06:  
+
+
+select
+    t.GenreId,
+    g.Name,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '01') as jan,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '02') as Feb,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '03') as Mar,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '04') as Apr,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '05') as May,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '06') as Jun,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '07') as Jul,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '08') as Aug,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '09') as Sep,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '10') as Oct,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '11') as Nov,
+    (select count(ii.trackId) from invoice_items join invoices on i.InvoiceId = ii.InvoiceId where strftime('%m', i.InvoiceDate) = '12') as Dec
+from invoices i
+join invoice_items ii on ii.InvoiceId = i.InvoiceId
+join tracks t on t.TrackId = ii.TrackId
+join genres g on g.GenreId = t.GenreId
+where strftime('%Y', i.InvoiceDate) = '2009'
+group by t.GenreId, g.Name;
+
+
+
+
+
+
+
+
+
+
+
+
